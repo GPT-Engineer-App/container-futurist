@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Box, Grid, GridItem, Text, VStack, HStack, Button, Link, IconButton, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { FaDocker, FaLink, FaPlay, FaStop, FaSyncAlt, FaMoon, FaSun } from "react-icons/fa";
 
@@ -31,6 +31,12 @@ const Index = () => {
   const bg = useColorModeValue("gray.100", "gray.900");
   const color = useColorModeValue("black", "white");
 
+  const [playStates, setPlayStates] = useState(containers.map(() => false));
+
+  const togglePlayState = (index) => {
+    setPlayStates((prevStates) => prevStates.map((state, i) => (i === index ? !state : state)));
+  };
+
   return (
     <Container maxW="container.xl" py={10} bg={bg} color={color}>
       <HStack justifyContent="space-between" mb={6}>
@@ -51,7 +57,7 @@ const Index = () => {
                   </Text>
                 </HStack>
                 <HStack>
-                  <IconButton aria-label="Start" icon={<FaPlay />} />
+                  <IconButton aria-label={playStates[index] ? "Pause" : "Start"} icon={playStates[index] ? <FaStop /> : <FaPlay />} onClick={() => togglePlayState(index)} />
                   <IconButton aria-label="Stop" icon={<FaStop />} />
                   <IconButton aria-label="Restart" icon={<FaSyncAlt />} />
                 </HStack>
